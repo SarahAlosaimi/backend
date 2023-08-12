@@ -12,8 +12,6 @@ const path = require('path');
 const app = express();
 app.use(cors());
 
-app.options('*', cors()); // Handle preflight requests for all routes
-
 app.use(express.json()); //  this line to parse JSON requests
 app.use(express.static(path.join(__dirname, 'public')));
 
