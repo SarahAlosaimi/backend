@@ -172,7 +172,7 @@ app.get('/getPrograms', (req, res) => {
   });
   
 
-//enroll proccess
+//enroll proc
   app.post('/enroll', (req, res) => {
     const userId = req.body.userId;
     const programId = req.body.programId;
@@ -190,7 +190,7 @@ app.get('/getPrograms', (req, res) => {
     });
 });
 
-//get student info
+
 app.get('/getStudentInfo', (req, res) => {
     const userId = req.query.userId; // Assuming you pass the user ID as a query parameter
     console.log(userId)
@@ -201,12 +201,12 @@ app.get('/getStudentInfo', (req, res) => {
         console.error(err);
         return res.status(500).json({ error: "Error fetching student information" });
       }
-  
-      if (results != undefined) {
+
+      if (typeof results != 'undefined' ) {
         const studentInfo = results[0];
         return res.json(studentInfo);
       } else {
-        return res.status(404).json({ error: "Student information not found" });
+        return res.status(404).json({ message: "Student information not found" });
       }
     });
   });
