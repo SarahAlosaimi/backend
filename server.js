@@ -22,9 +22,9 @@ const dbConfig = {
   database : "heroku_b1974455352ea96",
 };
 
-const dbPool = mysql.createPool(dbConfig);
+const db = mysql.createPool(dbConfig);
 
-dbPool.on('error', (err) => {
+db.on('error', (err) => {
   console.error('Database error:', err);
 });
 
