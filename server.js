@@ -149,7 +149,7 @@ console.log(result);
             }
         } else {
             console.log("No user found");
-            return res.json({ message: "No user found" });
+            return res.send({ message: "No user found" });
         }
     });
 
@@ -172,7 +172,7 @@ app.get('/getPrograms', (req, res) => {
   });
   
 
-
+//enroll proccess
   app.post('/enroll', (req, res) => {
     const userId = req.body.userId;
     const programId = req.body.programId;
@@ -190,7 +190,7 @@ app.get('/getPrograms', (req, res) => {
     });
 });
 
-
+//get student info
 app.get('/getStudentInfo', (req, res) => {
     const userId = req.query.userId; // Assuming you pass the user ID as a query parameter
     console.log(userId)
@@ -202,11 +202,11 @@ app.get('/getStudentInfo', (req, res) => {
         return res.status(500).json({ error: "Error fetching student information" });
       }
   
-      if (results.length > 0) {
+      if (results != "undefined") {
         const studentInfo = results[0];
         return res.json(studentInfo);
       } else {
-        return res.status(404).json({ message: "Student information not found" });
+        return res.status(404).json({ error: "Student information not found" });
       }
     });
   });
