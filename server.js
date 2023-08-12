@@ -14,15 +14,30 @@ app.use(cors());
 app.use(express.json()); //  this line to parse JSON requests
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-  
-
 const db = mysql.createConnection({
+  host : "us-cdbr-east-06.cleardb.net",
+  user: "bcbbaa29459c0c",
+  password: "2a0e07e8",
+  database : "heroku_b1974455352ea96",
+}); 
+  
+function createConnection()
+{
+mysql.createConnection({
     host : "us-cdbr-east-06.cleardb.net",
     user: "bcbbaa29459c0c",
     password: "2a0e07e8",
     database : "heroku_b1974455352ea96",
 }); 
+}
+
+
+db.on('error', (err) => {
+  createConnection();
+  console.error('Database error:', err);
+});
+
+
 
 const storage = multer.diskStorage({
     destination: './public/uploads/',
