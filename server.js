@@ -209,8 +209,8 @@ app.get('/getStudentInfo', (req, res) => {
 
 
 
-app.listen(8081 , () => { 
-    console.log("Server is listening on port 8081");
+app.listen(process.env.PORT || PORT , () => { 
+    console.log("Server is listening on port" + { PORT });
 }
 
 
