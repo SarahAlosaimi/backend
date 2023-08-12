@@ -91,7 +91,7 @@ app.post('/register' , (req, res ) => {
 app.post('/login', async (req, res) => {
     const email = req.body.email;
     const plainPassword = req.body.password;
-
+console.log
     const sql = "SELECT * FROM students WHERE email = ?";
     const values = [email];
 
@@ -105,10 +105,11 @@ console.log(result);
             const hashedPasswordFromDB = result[0].password;
             const isPasswordValid = await bcrypt.compare(plainPassword, hashedPasswordFromDB);
             const pID = result[0].program_id;
-
+            const userID = result[0].id; 
             if (isPasswordValid) {
                 console.log("Login success");
-                
+                localStorage.setItem('userID', userID); // Store the user ID in localStorage
+
                 res.send({ message: "success" , pID: pID });
             } else {
                 console.log("Incorrect password");
