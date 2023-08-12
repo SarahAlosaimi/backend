@@ -202,7 +202,7 @@ app.get('/getStudentInfo', (req, res) => {
         return res.status(500).json({ error: "Error fetching student information" });
       }
   
-      if (results != "undefined") {
+      if (results != undefined) {
         const studentInfo = results[0];
         return res.json(studentInfo);
       } else {
