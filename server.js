@@ -14,29 +14,19 @@ app.use(cors());
 app.use(express.json()); //  this line to parse JSON requests
 app.use(express.static(path.join(__dirname, 'public')));
 
-const db = mysql.createConnection({
+const dbConfig = {
+  connectionLimit: 10, // Set the maximum number of connections in the pool
   host : "us-cdbr-east-06.cleardb.net",
   user: "bcbbaa29459c0c",
   password: "2a0e07e8",
   database : "heroku_b1974455352ea96",
-}); 
-  
-function createConnection()
-{
-mysql.createConnection({
-    host : "us-cdbr-east-06.cleardb.net",
-    user: "bcbbaa29459c0c",
-    password: "2a0e07e8",
-    database : "heroku_b1974455352ea96",
-}); 
-}
+};
 
+const dbPool = mysql.createPool(dbConfig);
 
-db.on('error', (err) => {
-  createConnection();
+dbPool.on('error', (err) => {
   console.error('Database error:', err);
 });
-
 
 
 const storage = multer.diskStorage({
@@ -92,29 +82,6 @@ app.post('/register' , (req, res ) => {
 });
 
 
-//***************************** GPpage ***************************** */
-
-app.post('/GPpage', (req, res) => {
-
-    // Update data in the database
-
-    const sql = "UPDATE `students` SET `LevelofStudy`=?, `Program`=?, `Faculty`=? WHERE id = ?";
-    const values = [
-        req.body.dropdown1,
-        req.body.dropdown2,
-        req.body.dropdown3,
-        req.body.id  // userInfo is the ID of the user I want to updated
-    ];
-
-    db.query(sql, values, (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ error: "Error updating data into the database" });
-        }
-        console.log("Data updated successfully");
-        return res.json({ message: "Data updated successfully" });
-    });
-});
 
 
 
@@ -149,7 +116,7 @@ console.log(result);
             }
         } else {
             console.log("No user found");
-            return res.send({ message: "No user found" });
+            return res.json({ message: "No user found" });
         }
     });
 
@@ -201,13 +168,12 @@ app.get('/getStudentInfo', (req, res) => {
         console.error(err);
         return res.status(500).json({ error: "Error fetching student information" });
       }
-
-      if (typeof results === 'undefined' ) {
-        return res.status(404).json({ message: "Student information not found" });
-      } else {
+  
+      if (results.length > 0) {
         const studentInfo = results[0];
         return res.json(studentInfo);
-   
+      } else {
+        return res.status(404).json({ message: "Student information not found" });
       }
     });
   });
