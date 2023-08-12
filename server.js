@@ -15,14 +15,13 @@ app.use(express.json()); //  this line to parse JSON requests
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
   
 
 const db = mysql.createConnection({
-    host : "localhost",
-    user: "root",
-    password: "",
-    database : "students",
+    host : "us-cdbr-east-06.cleardb.net",
+    user: "bcbbaa29459c0c",
+    password: "2a0e07e8",
+    database : "heroku_b1974455352ea96",
 }); 
 
 const storage = multer.diskStorage({
