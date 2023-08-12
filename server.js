@@ -172,7 +172,7 @@ app.get('/getPrograms', (req, res) => {
   });
   
 
-//enroll proc
+
   app.post('/enroll', (req, res) => {
     const userId = req.body.userId;
     const programId = req.body.programId;
@@ -202,11 +202,12 @@ app.get('/getStudentInfo', (req, res) => {
         return res.status(500).json({ error: "Error fetching student information" });
       }
 
-      if (typeof results != 'undefined' ) {
+      if (typeof results === 'undefined' ) {
+        return res.status(404).json({ message: "Student information not found" });
+      } else {
         const studentInfo = results[0];
         return res.json(studentInfo);
-      } else {
-        return res.status(404).json({ message: "Student information not found" });
+   
       }
     });
   });
